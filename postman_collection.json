@@ -1,0 +1,319 @@
+{
+  "info": {
+    "_postman_id": "b5e4c8a0-3b6d-4d4b-9d4d-3e5ed1f0e111",
+    "name": "Travel Planner API",
+    "description": "Requests for the Travel Planner FastAPI app.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Summer Trip\",\n  \"description\": \"Museums and galleries\",\n  \"start_date\": \"2026-07-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Summer Trip\",\n  \"description\": \"Updated description\",\n  \"start_date\": \"2026-07-10\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Project",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Places",
+      "item": [
+        {
+          "name": "Add Place to Project",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_place_id\": \"129884\",\n  \"visited\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1/places",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1", "places"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Places in Project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1/places",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1", "places"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Place",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1/places/1",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1", "places", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Place",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"visited\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects/1/places/1",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects", "1", "places", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Notes",
+          "item": [
+            {
+              "name": "Create Note",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Need to visit in the morning\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/projects/1/places/1/notes",
+                  "protocol": "http",
+                  "host": ["127", "0", "0", "1"],
+                  "port": "8000",
+                  "path": ["projects", "1", "places", "1", "notes"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "List Notes",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/projects/1/places/1/notes",
+                  "protocol": "http",
+                  "host": ["127", "0", "0", "1"],
+                  "port": "8000",
+                  "path": ["projects", "1", "places", "1", "notes"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Get Note",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/projects/1/places/1/notes/1",
+                  "protocol": "http",
+                  "host": ["127", "0", "0", "1"],
+                  "port": "8000",
+                  "path": ["projects", "1", "places", "1", "notes", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Update Note",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"Updated note text\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "http://127.0.0.1:8000/projects/1/places/1/notes/1",
+                  "protocol": "http",
+                  "host": ["127", "0", "0", "1"],
+                  "port": "8000",
+                  "path": ["projects", "1", "places", "1", "notes", "1"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Delete Note",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "http://127.0.0.1:8000/projects/1/places/1/notes/1",
+                  "protocol": "http",
+                  "host": ["127", "0", "0", "1"],
+                  "port": "8000",
+                  "path": ["projects", "1", "places", "1", "notes", "1"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
