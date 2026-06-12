@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from db import get_session
 from entities import Note as NoteModel
 from entities import Places as PlaceModel
+from routers.auth import require_auth
 
 router = APIRouter(prefix="/projects/{project_id}/places/{place_id}/notes")
 
@@ -57,7 +58,7 @@ def get_note(project_id: int, place_id: int, note_id: int, session):
 
 
 @router.post("", response_model=NoteGet)
-def create_note(project_id: int, place_id: int, data: NoteCreate, session=Depends(get_session)):
+def create_note(project_id: int, place_id: int, data: NoteCreate, session=Depends(get_session), current_user=Depends(require_auth)):
     place = get_place(project_id, place_id, session)
     note = NoteModel(project_place_id=place.id, content=data.content)
     session.add(note)
@@ -88,6 +89,7 @@ def update_note(
     note_id: int,
     data: NoteUpdate,
     session=Depends(get_session),
+    current_user=Depends(require_auth),
 ):
     note = get_note(project_id, place_id, note_id, session)
 
@@ -100,7 +102,7 @@ def update_note(
 
 
 @router.delete("/{note_id}")
-def delete_note(project_id: int, place_id: int, note_id: int, session=Depends(get_session)):
+def delete_note(project_id: int, place_id: int, note_id: int, session=Depends(get_session), current_user=Depends(require_auth)):
     note = get_note(project_id, place_id, note_id, session)
     session.delete(note)
     session.commit()

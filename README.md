@@ -36,6 +36,31 @@ If you run it from the repository root, use:
 uvicorn test_task.main:app --reload
 ```
 
+## Authentication
+
+Write endpoints require a bearer token that you get after logging in.
+
+Use:
+
+- `POST /auth/register` to create a user
+- `POST /auth/login` to receive an access token
+- the Postman collection stores the token in `access_token` after login
+
+Example login response:
+
+```json
+{
+  "access_token": "<token>",
+  "token_type": "bearer"
+}
+```
+
+Then send:
+
+```text
+Authorization: Bearer <token>
+```
+
 ## API Docs
 
 FastAPI docs are available at:

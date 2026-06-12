@@ -7,6 +7,7 @@ from db import get_session
 from entities import Places as PlaceModel
 from entities import Project as ProjectModel
 from routers.projects import sync_project_completed
+from routers.auth import require_auth
 from services.artic import place_exists
 
 router = APIRouter(prefix="/projects/{project_id}/places")
@@ -36,7 +37,7 @@ class PlaceGet(BaseModel):
 
 
 @router.post("", response_model=PlaceGet)
-def add_place(project_id: int, data: PlaceCreate, session=Depends(get_session)):
+def add_place(project_id: int, data: PlaceCreate, session=Depends(get_session), current_user=Depends(require_auth)):
     project = session.query(ProjectModel).filter(ProjectModel.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -93,7 +94,7 @@ def get_place(project_id: int, place_id: int, session=Depends(get_session)):
 
 
 @router.patch("/{place_id}", response_model=PlaceGet)
-def update_place(project_id: int, place_id: int, data: PlaceUpdate, session=Depends(get_session)):
+def update_place(project_id: int, place_id: int, data: PlaceUpdate, session=Depends(get_session), current_user=Depends(require_auth)):
     place = (
         session.query(PlaceModel)
         .filter(PlaceModel.project_id == project_id)

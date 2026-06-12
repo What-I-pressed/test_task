@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from db import get_session
 from entities import Places as PlaceModel
 from entities import Project as ProjectModel
+from routers.auth import require_auth
 from services.artic import place_exists
 
 router = APIRouter(prefix="/projects")
@@ -54,7 +55,7 @@ def sync_project_completed(session, project_id: int):
 
 
 @router.post("", response_model=ProjectGet)
-def create_project(data: ProjectCreate, session=Depends(get_session)):
+def create_project(data: ProjectCreate, session=Depends(get_session), current_user=Depends(require_auth)):
     places_data = data.places or []
     if len(places_data) > 10:
         raise HTTPException(status_code=400, detail="Project cannot contain more than 10 places")
@@ -105,7 +106,7 @@ def get_project(project_id: int, session=Depends(get_session)):
 
 
 @router.patch("/{project_id}", response_model=ProjectGet)
-def update_project(project_id: int, data: ProjectUpdate, session=Depends(get_session)):
+def update_project(project_id: int, data: ProjectUpdate, session=Depends(get_session), current_user=Depends(require_auth)):
     project = session.query(ProjectModel).filter(ProjectModel.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
@@ -123,7 +124,7 @@ def update_project(project_id: int, data: ProjectUpdate, session=Depends(get_ses
 
 
 @router.delete("/{project_id}")
-def delete_project(project_id: int, session=Depends(get_session)):
+def delete_project(project_id: int, session=Depends(get_session), current_user=Depends(require_auth)):
     project = session.query(ProjectModel).filter(ProjectModel.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
