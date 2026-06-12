@@ -1,7 +1,4 @@
-from typing import Optional
-from urllib.error import HTTPError, URLError
-from urllib.request import urlopen
-import json
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -9,19 +6,10 @@ from pydantic import BaseModel
 from db import get_session
 from entities import Places as PlaceModel
 from entities import Project as ProjectModel
+from routers.projects import sync_project_completed
+from services.artic import place_exists
 
 router = APIRouter(prefix="/projects/{project_id}/places")
-
-
-def place_exists(external_place_id: str) -> bool:
-    url = f"https://api.artic.edu/api/v1/artworks/{external_place_id}?fields=id,title"
-    try:
-        with urlopen(url, timeout=10) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-            data = payload.get("data", {})
-            return str(data.get("id")) == str(external_place_id)
-    except (HTTPError, URLError, TimeoutError, ValueError, OSError):
-        return False
 
 
 class PlaceBase(BaseModel):
@@ -79,12 +67,14 @@ def add_place(project_id: int, data: PlaceCreate, session=Depends(get_session)):
         visited=data.visited,
     )
     session.add(place)
+    session.flush()
+    sync_project_completed(session, project_id)
     session.commit()
     session.refresh(place)
     return place
 
 
-@router.get("")
+@router.get("", response_model=List[PlaceGet])
 def list_places(project_id: int, session=Depends(get_session)):
     return session.query(PlaceModel).filter(PlaceModel.project_id == project_id).all()
 
@@ -116,6 +106,8 @@ def update_place(project_id: int, place_id: int, data: PlaceUpdate, session=Depe
     if data.visited is not None:
         place.visited = data.visited
 
+    session.flush()
+    sync_project_completed(session, project_id)
     session.commit()
     session.refresh(place)
     return place

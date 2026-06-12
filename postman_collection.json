@@ -54,6 +54,35 @@
           "response": []
         },
         {
+          "name": "Create Project With Places",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Museum Trip With Places\",\n  \"description\": \"Created with embedded places\",\n  \"start_date\": \"2026-07-01\",\n  \"places\": [\n    {\n      \"external_place_id\": \"129884\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/projects",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["projects"]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Get Project",
           "request": {
             "method": "GET",

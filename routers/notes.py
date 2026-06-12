@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -66,7 +66,7 @@ def create_note(project_id: int, place_id: int, data: NoteCreate, session=Depend
     return note
 
 
-@router.get("")
+@router.get("", response_model=List[NoteGet])
 def list_notes(project_id: int, place_id: int, session=Depends(get_session)):
     get_place(project_id, place_id, session)
     return (
